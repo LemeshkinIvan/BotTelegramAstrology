@@ -3,7 +3,7 @@ import random, codecs
 import time, threading, schedule
 
 
-TOKEN = "5924876999:AAEqe7dKohF5doANO1dd5as30SvmZfBUZ0w"
+TOKEN = "token"
 bot = telebot.TeleBot(TOKEN)
 
 
