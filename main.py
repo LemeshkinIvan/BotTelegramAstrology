@@ -2,10 +2,8 @@ import telebot
 import random, codecs
 import time, threading, schedule
 
-
 TOKEN = "token"
 bot = telebot.TeleBot(TOKEN)
-
 
 # default list messages
 psychologic_week = []
@@ -24,7 +22,6 @@ commands = {
     '/commands': 'вывести все команды'
     } #done!
 
-
 @bot.message_handler(commands=['start']) #done!
 def send_start_mess(message):
     name_user = message.from_user.first_name
@@ -36,7 +33,6 @@ def send_start_mess(message):
                                + '\n /commands -' + commands['/commands']
     bot.send_message(message.chat.id, "\nПривет," + name_user + "!\n" + command_mess)
 
-
 @bot.message_handler(commands=['commands']) #done!
 def show_it(message):
     bot.send_message(message.chat.id, 'Здесь все команды для работы со мной - Великим Астрологом:\n'
@@ -47,18 +43,15 @@ def show_it(message):
                      + '\n /default -' + commands['/default']
                      + '\n /stop - ' + commands['/stop'])
 
-
 @bot.message_handler(commands=['category']) #done!
 def category_default_list(message):
     cat_list = open("category_list.txt", "rb").read()
     bot.send_message(message.chat.id, cat_list)
 
-
 @bot.message_handler(commands=['about']) #done!
 def about_us(message):
     url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     bot.send_message(message.chat.id, "ABOUT US\n" + url)
-
 
 #default category commands
 # schedule
@@ -66,23 +59,19 @@ def about_us(message):
 def default_category(chat_id) -> None:
     bot.send_message(chat_id, random.choices(psychologic_week))
 
-
 @bot.message_handler(commands=['default'])
 def send_default(message):
     schedule.every(3).seconds.do(default_category, message.chat.id).tag(message.chat.id)
-
 
 @bot.message_handler(commands=['stop'])
 def unset_timer(message):
     schedule.clear(message.chat.id)
     bot.send_message(message.chat.id, 'Вы остановили текущую категорию\n Чтобы выбрать другие темы - /category')
 
-
 @bot.message_handler(commands=['bye']) # done!
 def goodbye(message):
     bot.send_message(message.chat.id, 'Пока! :(')
     bot.leave_chat(message.chat.id)
-
 
 # it's checking for me if script start
 co = [2,4,5,6,7,8,9]
@@ -90,7 +79,6 @@ for i in co:
     print(i)
     if i == 7:
         break
-
 
 if __name__ == '__main__':
     threading.Thread(target=bot.infinity_polling, name='bot_infinity_polling', daemon=True).start()
